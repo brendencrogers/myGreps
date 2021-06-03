@@ -1,6 +1,7 @@
 #include "myGrep.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 
 int main(int argc, char * argv[]){
@@ -36,6 +37,18 @@ int main(int argc, char * argv[]){
     int charbyline = 0;
     int max = 0;
     char longest[100];
+    typedef struct NODE node;
+
+    struct NODE {
+        node *next = NULL;
+    }
+
+    typedef struct LINKEDLIST linkedlist;
+
+    struct LINKEDLIST {
+        node *head = NULL;
+    }
+
 
     while (fgets(line, 100, f1) != NULL) {
 
@@ -54,7 +67,6 @@ int main(int argc, char * argv[]){
                 if (strcmp(token, argv[2]) == 0) {
                     occurances++;
                 }
-
 
                 token = strtok(NULL, s);
             }
