@@ -23,7 +23,7 @@ int main(int argc, char * argv[]){
         }
     }
     
-    else {      /* How can I tell what the prblem is? File or arguments? */
+    else if (argc < 3) {      
         printf("myGrep: improper number of arguments\n");
         printf("Usage: ./a.out <filename> <word>\n");
     }
@@ -79,14 +79,14 @@ int main(int argc, char * argv[]){
             if (strcmp(token, argv[2]) == 0) {
                 if (occurances == 0) {
                     strcpy(temp->line_contents, current_line);
-                    temp->line_num = numlines + 1;
+                    temp->line_num = numlines;
                     temp->word_num = wordcount;
                     temp->next = NULL;
                 }
                 else {
                     temp = (node *)malloc(sizeof(node));
                     strcpy(temp->line_contents, current_line);
-                    temp->line_num = numlines + 1;
+                    temp->line_num = numlines;
                     temp->word_num = wordcount;
                     temp->next = NULL;
                     tail->next = temp;
@@ -114,7 +114,7 @@ int main(int argc, char * argv[]){
     }
 
     printf("num lines: %d\n", numlines);
-    printf("total occurances of the word: %d\n", occurances);
+    printf("total occurrences of word: %d\n", occurances);
     
     node * current = head;
 
