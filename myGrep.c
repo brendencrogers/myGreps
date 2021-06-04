@@ -30,7 +30,7 @@ int main(int argc, char * argv[]){
 
     int numlines = 0;
     int occurances = 0;
-    const char s[] = " ,?\n";
+    const char s[] = " ,?.\n";
     char *token;
     int numchars = 0;
     int charbyline = 0;
@@ -38,6 +38,7 @@ int main(int argc, char * argv[]){
     char longest[100];
     int wordcount = 0;
     typedef struct NODE node;
+    char current_line[100];
 
     struct NODE {
         char line_contents[100];
@@ -62,11 +63,25 @@ int main(int argc, char * argv[]){
     while (fgets(line, 100, f1) != NULL) {
 
             /*printf("%s", line);*/
+            
+            /*
+
+            if (strlen(line) < 100) {
+                line[strlen(line - 1)] = '\0';
+            }
+
+            
+
+            printf("%s e\n", line);
+
+            */
+
             charbyline = strlen(line);
+            strcpy(current_line, line);
 
             if (charbyline > max) {
                 max = charbyline;
-                strcpy(longest, line);
+                strcpy(longest, current_line);
             }
 
             token = strtok(line, s);
@@ -75,13 +90,25 @@ int main(int argc, char * argv[]){
 
                 if (strcmp(token, argv[2]) == 0) {
                     if (occurances == 0) {
-                        strcpy(temp->line_contents, line);
+
+
+
+
+
+
+                        strcpy(temp->line_contents, current_line);
                         temp->line_num = numlines + 1;
                         temp->word_num = wordcount;
                         temp->next = NULL;
                     }
                     else {
                         temp = (node *)malloc(sizeof(node));
+
+
+
+
+
+
                         strcpy(temp->line_contents, line);
                         temp->line_num = numlines + 1;
                         temp->word_num = wordcount;
