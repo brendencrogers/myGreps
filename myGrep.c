@@ -32,22 +32,25 @@ int main(int argc, char * argv[]){
     int occurances = 0;
     const char s[] = " ,\n";
     char *token;
-    char *narg;
     int numchars = 0;
     int charbyline = 0;
     int max = 0;
     char longest[100];
+    int wordcount = 0;
     typedef struct NODE node;
 
     struct NODE {
-        node *next = NULL;
-    }
+        char line_contents[100];
+        int line_num;
+        int word_num;
+        node *next;
+    };
 
     typedef struct LINKEDLIST linkedlist;
 
     struct LINKEDLIST {
-        node *head = NULL;
-    }
+        node head;
+    };
 
 
     while (fgets(line, 100, f1) != NULL) {
@@ -64,13 +67,21 @@ int main(int argc, char * argv[]){
 
             while (token != NULL) {
 
+                node new;
+
                 if (strcmp(token, argv[2]) == 0) {
                     occurances++;
+                    new.line_contents = line;
+                    new.line_num = numlines + 1;
+                    new.word_num = wordcount;
+                    temp = (node *)malloc(sizeof(node));
                 }
 
                 token = strtok(NULL, s);
+                wordcount++;
             }
 
+            wordcount = 0;
             numlines++;
     }
 
