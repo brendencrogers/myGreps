@@ -30,7 +30,7 @@ int main(int argc, char * argv[]){
 
     int numlines = 0;
     int occurances = 0;
-    const char s[] = " ,\n";
+    const char s[] = " ,?\n";
     char *token;
     int numchars = 0;
     int charbyline = 0;
@@ -43,14 +43,20 @@ int main(int argc, char * argv[]){
         char line_contents[100];
         int line_num;
         int word_num;
-        node *next;
+        node * next;
     };
 
-    typedef struct LINKEDLIST linkedlist;
+    node * temp = NULL;
+    node * head = NULL;
+    node * tail = NULL;
+    head = (node *)malloc(sizeof(node));
+    if (head == NULL) {
+        printf("Error in allocating the data array");
+        return 1;
+    }
 
-    struct LINKEDLIST {
-        node head;
-    };
+    temp = head;
+    tail = head;
 
 
     while (fgets(line, 100, f1) != NULL) {
@@ -67,14 +73,24 @@ int main(int argc, char * argv[]){
 
             while (token != NULL) {
 
-                node new;
-
                 if (strcmp(token, argv[2]) == 0) {
+                    if (occurances == 0) {
+                        strcpy(temp->line_contents, line);
+                        temp->line_num = numlines + 1;
+                        temp->word_num = wordcount;
+                        temp->next = NULL;
+                    }
+                    else {
+                        temp = (node *)malloc(sizeof(node));
+                        strcpy(temp->line_contents, line);
+                        temp->line_num = numlines + 1;
+                        temp->word_num = wordcount;
+                        temp->next = NULL;
+                        tail->next = temp;
+                        tail = temp;
+                    }
+
                     occurances++;
-                    new.line_contents = line;
-                    new.line_num = numlines + 1;
-                    new.word_num = wordcount;
-                    temp = (node *)malloc(sizeof(node));
                 }
 
                 token = strtok(NULL, s);
@@ -89,6 +105,14 @@ int main(int argc, char * argv[]){
     printf("num chars: %lu\n", strlen(longest));
     printf("num lines: %d\n", numlines);
     printf("total occurances of the word: %d\n", occurances);
+    
+    node * current = head;
+
+    while (current->next != NULL) {
+        printf("line %d; word %d; %s\n", current->line_num, current->word_num, current->line_contents);
+        current = current->next;
+    }
+
 
     
 }
