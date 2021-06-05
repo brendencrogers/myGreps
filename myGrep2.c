@@ -24,6 +24,7 @@ int main(int argc, char * argv[]){
     node * current = NULL;
     node * start = NULL;
     node * iterate = NULL;
+    node * iterate2 = NULL;
    
 
 
@@ -75,16 +76,21 @@ int main(int argc, char * argv[]){
 
                 if (occur_inline > 0) { /* If we have already found a match */
                     temp = (node *)malloc(sizeof(node));
-                    temp->word_num = wordcount;
-                    temp->next = NULL;
+                    if (temp != NULL) {
+                        temp->word_num = wordcount;
+                        temp->next = NULL;
+                        temp->start = NULL;
+                    }
                     iterate = tail;
+                    
 
                     while (iterate->start != NULL) {
+                        
                         iterate = iterate->start;
                     }
                     
-                    iterate->next = temp;
-
+                    iterate->start = temp;
+                    
                 }
 
                 else {
@@ -94,6 +100,7 @@ int main(int argc, char * argv[]){
                         temp->line_num = numlines;
                         temp->word_num = wordcount;
                         temp->next = NULL;
+                        temp->start = NULL;
                     }
                     else {
                         temp = (node *)malloc(sizeof(node));
@@ -101,6 +108,7 @@ int main(int argc, char * argv[]){
                         temp->line_num = numlines;
                         temp->word_num = wordcount;
                         temp->next = NULL;
+                        temp->start = NULL;
                         tail->next = temp;
                         tail = temp;
                     }
@@ -147,20 +155,25 @@ int main(int argc, char * argv[]){
                 printf("line %d; word %d; %s\n", current->line_num, current->word_num, current->line_contents);
             }
 
+            printf("here\n");
+            printf("current.start %p\n", current->start);
+
             if (current->start != NULL) {
                 printf("Same line as above, word(s): ");
-
-                iterate = current;
-                while (iterate->start != NULL) {
+                iterate2 = current;
+                while (iterate2->start != NULL) {
                     printf("%d, ", start->word_num);
-                    iterate = iterate->start; 
+                    iterate2 = iterate2->start;
                 }
 
                 printf("\n");
             }
 
-            current = current->next;
+            
+
             free(current);
+            current = current->next;
+            
         }
     
     }
