@@ -1,3 +1,4 @@
+/*Jacob Keliikoa and Brenden Rogers*/
 #include "myGrep.h"
 #include <stdio.h>
 #include <string.h>
@@ -8,6 +9,19 @@ int main(int argc, char * argv[]){
 
     char line[101];
     FILE *f1;
+    int numlines = 0;
+    int occurances = 0;
+    const char s[] = " ,?.\n";
+    char *token;
+    int charbyline = 0;
+    int max = 0;
+    char longest[101];
+    int wordcount = 0;
+    char current_line[101];
+    node * temp = NULL;
+    node * head = NULL;
+    node * tail = NULL;
+    node * current = NULL; 
 
     f1 = fopen(argv[1], "r");
 
@@ -23,33 +37,12 @@ int main(int argc, char * argv[]){
         }
     }
     
-    else if (argc < 3) {      
+    else if (argc != 3) {      
         printf("myGrep: improper number of arguments\n");
         printf("Usage: ./a.out <filename> <word>\n");
+        return 1;
     }
 
-    int numlines = 0;
-    int occurances = 0;
-    const char s[] = " ,?.\n";
-    char *token;
-    int numchars = 0;
-    int charbyline = 0;
-    int max = 0;
-    char longest[101];
-    int wordcount = 0;
-    typedef struct NODE node;
-    char current_line[101];
-
-    struct NODE {
-        char line_contents[101];
-        int line_num;
-        int word_num;
-        node * next;
-    };
-
-    node * temp = NULL;
-    node * head = NULL;
-    node * tail = NULL;
     head = (node *)malloc(sizeof(node));
     if (head == NULL) {
         printf("Error in allocating the data array");
@@ -107,7 +100,7 @@ int main(int argc, char * argv[]){
     printf("longest line: %s", longest);
 
     if (strlen(longest) < 100) {
-        printf("num chars: %lu\n", strlen(longest) - 1);
+        printf("num chars: %lu\n", strlen(longest));
     }
     else {
         printf("\nnum chars: %lu\n", strlen(longest));
@@ -116,27 +109,31 @@ int main(int argc, char * argv[]){
     printf("num lines: %d\n", numlines);
     printf("total occurrences of word: %d\n", occurances);
     
-    node * current = head;
+    current = head;
 
     /*
-    if (occurances == 1) {
-        printf("line %d; word %d; %s\n", current->line_num, current->word_num, current->line_contents);
-        return 0;
-    }
-    */
+ *     if (occurances == 1) {
+ *             printf("line %d; word %d; %s\n", current->line_num, current->word_num, current->line_contents);
+ *                     return 0;
+ *                         }
+ *                             */
 
-    while (current != NULL) {
-        if (strlen(current->line_contents) < 100) {
-            printf("line %d; word %d; %s", current->line_num, current->word_num, current->line_contents);
-            if (current->line_num == numlines) {
-                printf("\n");
-            }
-        }
-        else {
-            printf("line %d; word %d; %s\n", current->line_num, current->word_num, current->line_contents);
-        }
-        
-        current = current->next;
-    }
+    if (occurances != 0) {
+         while (current != NULL) {
+                 if (strlen(current->line_contents) < 100) {
+                         printf("line %d; word %d; %s", current->line_num, current->word_num, current->line_contents);
+                        if (current->line_num == numlines) {
+                                 printf("\n");
+                        }
+                 } 
+                 else {
+                         printf("line %d; word %d; %s\n", current->line_num, current->word_num, current->line_contents);
+                 }
+                 free(current);
+                 current = current->next;
+         }
     
+    }
+    current = NULL;
+    return 0;
 }
